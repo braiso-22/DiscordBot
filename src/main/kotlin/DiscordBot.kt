@@ -1,5 +1,6 @@
 import net.dv8tion.jda.api.OnlineStatus
 import net.dv8tion.jda.api.entities.Activity
+import net.dv8tion.jda.api.exceptions.InvalidTokenException
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder
 import net.dv8tion.jda.api.sharding.ShardManager
 
@@ -12,11 +13,15 @@ object DiscordBot {
             return
         }
         println("Encendiendo")
-        this.shardManager = DefaultShardManagerBuilder
-            .createDefault(token)
-            .setActivity(Activity.of(Activity.ActivityType.PLAYING, "Pensando"))
-            .setStatus(OnlineStatus.ONLINE)
-            .build()
+        try {
+            this.shardManager = DefaultShardManagerBuilder
+                .createDefault(token)
+                .setActivity(Activity.of(Activity.ActivityType.PLAYING, "Pensando"))
+                .setStatus(OnlineStatus.ONLINE)
+                .build()
+        } catch (e: InvalidTokenException) {
+            println("Error: $e")
+        }
     }
 
     fun stop() {

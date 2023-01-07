@@ -1,11 +1,9 @@
-import net.dv8tion.jda.api.exceptions.InvalidTokenException
-import net.dv8tion.jda.api.sharding.ShardManager
+import io.github.cdimascio.dotenv.Dotenv
 import java.util.Scanner
-import javax.security.auth.login.LoginException
-import kotlin.concurrent.thread
 
-const val token: String = "MTA2MDk4Nzk4MTU5MjI3NzEyNA.GN-5yF.BpDVKVm6FK8ZwzR_hfM4d7N9l88rQ-xzwW9-1Y"
+private lateinit var token: String
 fun main() {
+    token = Dotenv.configure().load().get("TOKEN")
     menuLoop()
 }
 
@@ -14,16 +12,11 @@ fun menuLoop() {
         val option = menu()
         when (option) {
             Options.INVALIDO -> println("Opción no válida")
-            Options.SALIR, Options.APAGAR -> {
-                DiscordBot.stop()
-            }
-            Options.ENCENDER -> {
-                    try {
-                        DiscordBot.start(token)
-                    } catch (e: InvalidTokenException) {
-                        println("Error: $e")
-                    }
-            }
+            Options.SALIR,
+            Options.APAGAR,
+            -> DiscordBot.stop()
+
+            Options.ENCENDER -> DiscordBot.start(token)
         }
     } while (option != Options.SALIR)
 }
