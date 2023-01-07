@@ -1,3 +1,4 @@
+import net.dv8tion.jda.api.exceptions.InvalidTokenException
 import net.dv8tion.jda.api.sharding.ShardManager
 import java.util.Scanner
 import javax.security.auth.login.LoginException
@@ -19,7 +20,7 @@ fun menuLoop() {
             Options.ENCENDER -> {
                     try {
                         DiscordBot.start(token)
-                    } catch (e: LoginException) {
+                    } catch (e: InvalidTokenException) {
                         println("Error: $e")
                     }
             }
